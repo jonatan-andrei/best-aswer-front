@@ -6,7 +6,7 @@
         {{ pergunta.descricao }} <br /><br />
         Data: {{ pergunta.data }} - Categoria: {{ pergunta.descricaoCategoria }}
       </p>
-      <h2 class="quantidade-respostas" v-if="pergunta.quantidadeRespostas == 1">
+      <h2 class="quantidade-respostas" v-if="pergunta.quantidadeRespostas === 1">
         1 resposta
       </h2>
       <h2 class="quantidade-respostas" v-else>
@@ -25,25 +25,28 @@
           v-model="resposta"
           placeholder="Digite sua resposta aqui"
         ></textarea>
-        <button class="botao-responder" v-on:click="responder">
-          Responder
-        </button>
+        <button class="botao-responder" @click="responder">Responder</button>
       </div>
     </div>
-    <div class="pergunta-usuario-deslogado" v-else>Faça login ou cadastre-se para continuar</div>
+    <div class="pergunta-usuario-deslogado" v-else>
+      Faça login ou cadastre-se para continuar
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import CardResposta from "@/components/CardResposta.vue";
+
 export default {
   name: "PerguntaDetalhe",
   data() {
     return {
-      getToken() {
-        return localStorage.getItem("jwtToken") || "";
-      },
+      nome: "",
+      email: "",
+      senha: "",
+      token: "",
+      rotaSucesso: "",
       pergunta: {},
       id: null,
       resposta: "",
@@ -57,16 +60,10 @@ export default {
     this.id = this.$route.params.id;
   },
   mounted() {
-    const config = {
-      headers: { Authorization: `${this.getToken()}` },
-    };
-
-    axios
-      .get("http://localhost:8096/pergunta/" + this.id, config)
-      .then((response) => (this.pergunta = response.data));
+    this.atualizarDados();
   },
   methods: {
-    responder: function () {
+    responder() {
       if (this.resposta) {
         const body = {
           idPergunta: this.id,
@@ -75,11 +72,12 @@ export default {
         const config = {
           headers: { Authorization: `${this.getToken()}` },
         };
-        axios
-          .post("http://localhost:8096/resposta", body, config)
-          .then(() => this.atualizarDados());
+        axios.post("http://localhost:8096/resposta", body, config).then(() => {
+          this.atualizarDados();
+          this.resposta = "";
+        });
       } else {
-        alert('Digite sua resposta')
+        alert("Digite sua resposta");
       }
     },
     atualizarDados() {
@@ -87,9 +85,12 @@ export default {
         headers: { Authorization: `${this.getToken()}` },
       };
 
-      axios
-        .get("http://localhost:8096/pergunta/" + this.id, config)
-        .then((response) => (this.pergunta = response.data));
+      axios.get("http://localhost:8096/pergunta/" + this.id, config).then((response) => {
+        this.pergunta = response.data;
+      });
+    },
+    getToken() {
+      return localStorage.getItem("jwtToken") || "";
     },
   },
 };
@@ -102,58 +103,60 @@ ul {
 }
 
 .pergunta-dados {
-  padding: 50px;
-  padding-top: 20px;
-  max-width: 90%;
-  margin: 10px 10px 10px 50px;
+  padding: 20px;
+  max-width: 800px;
+  margin: 20px auto;
 }
 
 .titulo-pergunta {
   background-color: #3f51b5;
   color: #ffffff;
-  border-radius: 20px;
-  padding: 10px 20px 10px 20px;
+  border-radius: 10px;
+  padding: 10px;
   text-align: center;
   font-size: 24px;
+  margin-bottom: 20px;
 }
 
 .detalhe-pergunta {
-  background-color: #ffffffff;
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 5px 20px 5px 20px;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 15px;
   text-align: left;
+  border-radius: 10px;
 }
 
 textarea {
-  width: 98%;
+  width: 100%;
   min-height: 100px;
   font-size: 16px;
-  font-size: max(16px, 1em);
-  font-family: inherit;
-  padding: 0.25em 0.5em;
+  padding: 10px;
+  box-sizing: border-box;
   background-color: #fff;
+  border: 1px solid #ccc;
   border-radius: 10px;
 }
 
 .botao-responder {
   width: 100%;
-  position: relative;
-  display: block;
-  height: 36px;
-  border-radius: 18px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
   background-color: #77c06c;
-  border: solid 1px transparent;
   color: #fff;
   font-size: 18px;
-  font-weight: 300;
   cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.botao-responder:hover {
+  background-color: #5ca85c;
 }
 
 .pergunta-usuario-deslogado {
-  margin: 50px;
+  margin: 20px;
   text-align: center;
-  font-size: 28px;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-size: 18px;
   color: #3f51b5;
 }
 </style>

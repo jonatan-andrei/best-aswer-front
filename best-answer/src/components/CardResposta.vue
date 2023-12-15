@@ -1,6 +1,6 @@
 <template>
   <li :key="resposta.id">
-    <p>
+    <p class="resposta-info">
       Respondido por {{ resposta.nomeUsuario }} em {{ resposta.data }}
     </p>
 
@@ -19,25 +19,23 @@ export default {
 
 <style scoped>
 li {
-  background-color: #ffffffff;
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  margin: 10px 0px;
-  padding: 5px 20px 5px 20px;
-  text-align: left;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
 }
 
-li a {
-  text-decoration: none;
+.resposta-info {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
 }
 
-li h3 {
-  font-size: 15px;
-  color: #000000;
-}
-
-li p {
-  font-size: 15px;
-  color: #000000;
+h3 {
+  font-size: 16px;
+  color: #333;
+  margin-top: 0;
 }
 
 </style>

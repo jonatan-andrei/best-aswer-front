@@ -18,7 +18,7 @@
             class="detalhe-pergunta-input-descricao"
             v-model="descricao"
             placeholder="Descreva sua pergunta"
-          />
+          ></textarea>
         </div>
         <div class="detalhe-pergunta-input">
           <h4>Categoria da pergunta:</h4>
@@ -35,9 +35,7 @@
           </select>
         </div>
         <div class="detalhe-pergunta-botao">
-          <button class="botao-perguntar" v-on:click="perguntar">
-            Perguntar
-          </button>
+          <button class="botao-perguntar" @click="perguntar">Perguntar</button>
         </div>
       </div>
     </div>
@@ -49,21 +47,18 @@
 
 <script>
 import axios from "axios";
+
 export default {
   name: "Perguntar",
   data() {
     return {
-      getToken() {
-        return localStorage.getItem("jwtToken") || "";
-      },
       titulo: "",
       descricao: "",
       categoria: "",
-      token: "",
     };
   },
   methods: {
-    perguntar: function () {
+    perguntar() {
       if (!this.titulo) {
         alert("Digite o título da sua pergunta");
         return;
@@ -81,13 +76,15 @@ export default {
         descricao: this.descricao,
         idCategoria: this.categoria,
       };
-      axios.post("http://localhost:8096/pergunta", body, config).then(
-        (response) => this.redirecionarUsuario(response),
-        (error) => alert(error)
-      );
+      axios.post("http://localhost:8096/pergunta", body, config)
+        .then((response) => this.redirecionarUsuario(response))
+        .catch((error) => alert(error));
     },
     redirecionarUsuario(response) {
       this.$router.push("/pergunta/" + response.data);
+    },
+    getToken() {
+      return localStorage.getItem("jwtToken") || "";
     },
   },
 };
@@ -95,99 +92,70 @@ export default {
 
 <style scoped>
 .perguntar {
-  padding: 100px;
-  padding-top: 20px;
-  max-width: 80%;
-  margin: 10px 10px 10px 50px;
+  padding: 20px;
+  max-width: 800px;
+  margin: 20px auto;
 }
 
 .titulo-pagina {
   background-color: #3f51b5;
   color: #ffffff;
-  border-radius: 20px;
-  padding: 10px 20px 10px 20px;
+  border-radius: 10px;
+  padding: 10px;
   text-align: center;
   font-size: 24px;
+  margin-bottom: 20px;
 }
 
 .detalhe-pergunta {
-  background-color: #ffffffff;
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 5px 20px 5px 20px;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 15px;
   border-radius: 10px;
 }
 
 .detalhe-pergunta-input {
-  margin: 20px;
-  margin-bottom: 30px;
+  margin: 20px 0;
 }
 
-.detalhe-pergunta-input-titulo {
-  width: 100%;
-  padding: 12px 20px;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 16px;
-  font-size: max(16px, 1em);
-  font-family: inherit;
-  padding: 0.25em 0.5em;
-  background-color: #fff;
-  border-radius: 10px;
-}
-
-.detalhe-pergunta-input-descricao {
-  width: 98%;
-  min-height: 100px;
-  font-size: 16px;
-  font-size: max(16px, 1em);
-  font-family: inherit;
-  background-color: #fff;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-}
-
+.detalhe-pergunta-input-titulo,
+.detalhe-pergunta-input-descricao,
 .detalhe-pergunta-input-select {
   width: 100%;
-  padding: 12px 20px;
-  display: inline-block;
+  padding: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
   font-size: 16px;
-  font-size: max(16px, 1em);
   font-family: inherit;
   background-color: #fff;
-  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 .detalhe-pergunta-botao {
-  margin: 30px;
+  margin-top: 20px;
 }
 
 .botao-perguntar {
-  width: 30%;
-  position: relative;
-  display: block;
-  height: 36px;
-  border-radius: 18px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
   background-color: #77c06c;
-  border: solid 1px transparent;
   color: #fff;
   font-size: 18px;
-  font-weight: 300;
   cursor: pointer;
-  justify-content: center;
-  display: block;
-  margin: 0 auto;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.botao-perguntar:hover {
+  background-color: #5ca85c;
 }
 
 .pergunta-usuario-deslogado {
-  margin: 50px;
+  margin: 20px;
   text-align: center;
-  font-size: 28px;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-size: 18px;
   color: #3f51b5;
 }
 </style>

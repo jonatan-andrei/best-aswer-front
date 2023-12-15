@@ -19,7 +19,7 @@
         >Cadastro</router-link
       >
       <div class="grid-item" v-if="$root.shared.nomeUsuario">
-        Olá, {{ $root.shared.nomeUsuario }} - <a @click="logout()">Logout</a>
+        Olá, {{ $root.shared.nomeUsuario }} - <a @click="logout()">&nbsp;Logout</a>
       </div>
     </div>
     <router-view />
@@ -43,33 +43,72 @@ export default {
 
 <style>
 body {
-  background-color: #e9f2ef;
+  background-color: #f6f6f6;
+  margin: 0;
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   color: #2c3e50;
 }
 
 #nav {
-  padding: 30px;
-  display: grid;
-  grid-template-columns: auto auto auto auto auto;
+  display: flex;
+  justify-content:space-evenly;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#nav img {
+  max-width: 150px;
 }
 
 #nav .grid-item {
-  padding: 20px;
-  font-size: 25px;
-  text-align: center;
-  padding-top: 40px;
+  padding: 10px;
+  font-size: 18px;
   font-weight: bold;
   color: #3f51b5;
   text-decoration: none;
+  transition: color 0.3s ease-in-out;
 }
 
+#nav .grid-item:hover,
 #nav a.router-link-exact-active {
   color: #77c06c;
 }
+
+#nav .grid-item:last-child {
+  display: flex;
+  align-items: center;
+}
+
+#nav .grid-item a {
+  color: #3f51b5;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+#nav .grid-item a:hover {
+  color: #77c06c;
+}
+
+#nav .grid-item.logout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#nav .grid-item.logout a {
+  margin-top: 5px;
+  color: #3f51b5;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+#nav .grid-item.logout a:hover {
+  color: #77c06c;
+}
+
+
 </style>
