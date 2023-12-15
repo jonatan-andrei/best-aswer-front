@@ -3,24 +3,27 @@
     <h1 class="titulo-pagina">Login</h1>
     <div class="detalhe-login">
       <div class="detalhe-login-input">
-        <h4>E-mail:</h4>
+        <label for="email">E-mail:</label>
         <input
-          class="detalhe-login-input-text"
+          id="email"
+          type="email"
           v-model="email"
           placeholder="Digite o seu e-mail"
+          class="detalhe-login-input-text"
         />
       </div>
       <div class="detalhe-login-input">
-        <h4>Senha:</h4>
+        <label for="senha">Senha:</label>
         <input
+          id="senha"
           type="password"
           v-model="senha"
-          class="detalhe-login-input-text"
           placeholder="Digite a sua senha"
+          class="detalhe-login-input-text"
         />
       </div>
       <div class="detalhe-login-botao">
-        <button class="botao-login" v-on:click="login">Login</button>
+        <button class="botao-login" @click="login">Login</button>
       </div>
     </div>
   </div>
@@ -28,6 +31,7 @@
 
 <script>
 import axios from "axios";
+
 export default {
   name: "Login",
   data() {
@@ -41,7 +45,7 @@ export default {
   methods: {
     login: function () {
       if (!this.email) {
-        alert("Digite seu email");
+        alert("Digite seu e-mail");
         return;
       }
       if (!this.senha) {
@@ -69,66 +73,65 @@ export default {
 
 <style scoped>
 .login {
-  padding: 100px;
-  padding-top: 20px;
-  max-width: 80%;
-  margin: 10px 10px 10px 50px;
+  padding: 50px;
+  max-width: 400px;
+  margin: 20px auto;
 }
 
 .titulo-pagina {
   background-color: #3f51b5;
   color: #ffffff;
-  border-radius: 20px;
-  padding: 10px 20px 10px 20px;
+  border-radius: 10px;
+  padding: 10px;
   text-align: center;
   font-size: 24px;
+  margin-bottom: 20px;
 }
 
 .detalhe-login {
-  background-color: #ffffffff;
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 5px 20px 5px 20px;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 20px;
   border-radius: 10px;
 }
 
 .detalhe-login-input {
-  margin: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+}
+
+.detalhe-login-input label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: #555;
 }
 
 .detalhe-login-input-text {
   width: 100%;
-  padding: 12px 20px;
-  display: inline-block;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
   font-size: 16px;
-  font-size: max(16px, 1em);
-  font-family: inherit;
-  padding: 0.25em 0.5em;
-  background-color: #fff;
-  border-radius: 10px;
 }
 
 .detalhe-login-botao {
-  margin: 30px;
+  margin-top: 20px;
 }
 
 .botao-login {
-  width: 30%;
-  position: relative;
-  display: block;
-  height: 36px;
-  border-radius: 18px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
   background-color: #77c06c;
-  border: solid 1px transparent;
   color: #fff;
   font-size: 18px;
-  font-weight: 300;
   cursor: pointer;
-  justify-content: center;
-  display: block;
-  margin: 0 auto;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.botao-login:hover {
+  background-color: #5ca85c;
 }
 </style>
